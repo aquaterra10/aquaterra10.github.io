@@ -16,7 +16,7 @@ function renderStatic(){
  $('#trainingGrid').innerHTML=data.training.map(x=>`<article class="card reveal"><h3>${x[0]}</h3><p>${x[1]}</p><span class="duration">Atelier pratique</span></article>`).join('');
  $('#valueGrid').innerHTML=data.values.map(x=>`<div class="value"><i class="fa-solid fa-${x[0]}"></i><b>${x[1]}</b></div>`).join('');
 }
-function applyLang(){const t=TRANSLATIONS[lang];document.documentElement.lang=lang;$$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(t[k])el.textContent=t[k]});$$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml;if(t[k])el.innerHTML=t[k]});$$('[data-i18n-placeholder]').forEach(el=>{const k=el.dataset.i18nPlaceholder;if(t[k])el.placeholder=t[k]});$$('.language-option').forEach(b=>{const a=b.dataset.lang===lang;b.classList.toggle('active',a);b.setAttribute('aria-pressed',a)});$('#googleFormBtn').href=lang==='fr'?CONFIG.formFr:lang==='en'?CONFIG.formEn:CONFIG.formEs;renderSelects();renderDemo(currentDemo)}
+function applyLang(){const t=TRANSLATIONS[lang];document.documentElement.lang=lang;$$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(t[k])el.textContent=t[k]});$$('[data-i18n-html]').forEach(el=>{const k=el.dataset.i18nHtml;if(t[k])el.innerHTML=t[k]});$$('[data-i18n-placeholder]').forEach(el=>{const k=el.dataset.i18nPlaceholder;if(t[k])el.placeholder=t[k]});$$('.language-option').forEach(b=>{const a=b.dataset.lang===lang;b.classList.toggle('active',a);b.setAttribute('aria-pressed',a)});renderSelects();renderDemo(currentDemo)}
 $$('.language-option').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang;localStorage.setItem('aquaterraLang',lang);applyLang()}));
 function syncTheme(){const dark=document.documentElement.dataset.theme==='dark';themeBtn.innerHTML=`<i class="fa-solid fa-${dark?'sun':'moon'}"></i>`}
 const savedTheme=localStorage.getItem('aquaterraTheme')||'dark';document.documentElement.dataset.theme=savedTheme;syncTheme();themeBtn.addEventListener('click',()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';localStorage.setItem('aquaterraTheme',document.documentElement.dataset.theme);syncTheme()});
@@ -83,7 +83,7 @@ $('#quoteForm').addEventListener('submit',async e=>{
  if(!form.reportValidity())return;
  if(!services.length){showFormMessage('error',`<i class="fa-solid fa-circle-exclamation"></i>${tr('selectServiceError','Sélectionnez au moins un service.')}`);return}
  if($('#qWebsite').value)return;
- if(!CONFIG.apiUrl||CONFIG.apiUrl.includes('COLLEZ_ICI')){showFormMessage('error',`<i class="fa-solid fa-link-slash"></i>${tr('apiNotConfigured','L’API Google Sheets n’est pas encore configurée. Utilisez temporairement le formulaire Google.')}`);return}
+ if(!CONFIG.apiUrl||CONFIG.apiUrl.includes('COLLEZ_ICI')){showFormMessage('error',`<i class="fa-solid fa-link-slash"></i>${tr('apiNotConfigured','L’API Google Sheets n’est pas encore configurée.')}`);return}
  const requestId=createClientRequestId();
  $('#qRequestId').value=requestId;$('#qLanguage').value=lang;
  const params=new URLSearchParams({
@@ -94,7 +94,7 @@ $('#quoteForm').addEventListener('submit',async e=>{
   await fetch(CONFIG.apiUrl,{method:'POST',mode:'no-cors',body:params});
   showFormMessage('success',`<i class="fa-solid fa-circle-check"></i><div><b>${tr('requestSent','Demande transmise avec succès.')}</b><span>${tr('requestNumber','Numéro de dossier')} : <strong>${requestId}</strong></span></div>`);
   form.reset();renderSelects();estimate();
- }catch(err){console.error(err);showFormMessage('error',`<i class="fa-solid fa-triangle-exclamation"></i>${tr('sendError','Échec de la transmission. Vérifiez votre connexion ou utilisez le formulaire Google.')}`)}finally{
+ }catch(err){console.error(err);showFormMessage('error',`<i class="fa-solid fa-triangle-exclamation"></i>${tr('sendError','Échec de la transmission. Vérifiez votre connexion puis réessayez.')}`)}finally{
   button.disabled=false;button.classList.remove('loading');button.innerHTML=`<i class="fa-solid fa-paper-plane"></i><span>${tr('sendRequest','Envoyer la demande')}</span>`;
  }
 });

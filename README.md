@@ -1,4 +1,4 @@
-# AquaTerra Systems 2.1
+# AquaTerra Systems 2.1.2
 
 Version professionnelle avec formulaire natif connecté à Google Sheets.
 
@@ -40,3 +40,15 @@ Téléversez ensuite les fichiers du site sur GitHub Pages.
 - notification à AquaTerra Systems ;
 - estimation multi-services ;
 - validation, consentement et protection antispam.
+
+
+## Formulaire direct
+
+Le formulaire intégré transmet les demandes directement à Google Apps Script et Google Sheets. Aucun bouton Google Forms n’est présent.
+
+
+## Correctifs 2.1.2
+
+- Drapeaux affichés comme images PNG (France, Royaume-Uni, Espagne) pour éviter le rendu FR/GB/ES des emoji sous Windows.
+- Suppression totale du bouton et des messages de secours Google Forms.
+- Cache-busting des ressources avec la version 2.1.2.

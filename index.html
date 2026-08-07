@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="assets/css/main.css?v=2.1.0">
+  <link rel="stylesheet" href="assets/css/main.css?v=2.1.2">
 </head>
 <body>
   <nav class="site-nav">
@@ -33,9 +33,9 @@
       <div class="nav-actions">
         <button class="icon-btn" id="themeBtn" aria-label="Changer le thème"><i class="fa-solid fa-sun"></i></button>
         <div class="language-switcher" role="group" aria-label="Langues">
-          <button class="language-option" data-lang="fr" type="button"><span class="flag">🇫🇷</span><span>FR</span></button>
-          <button class="language-option" data-lang="en" type="button"><span class="flag">🇬🇧</span><span>EN</span></button>
-          <button class="language-option" data-lang="es" type="button"><span class="flag">🇪🇸</span><span>ES</span></button>
+          <button class="language-option" data-lang="fr" type="button" aria-label="Français" title="Français"><img class="flag-img" src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" alt="Français"></button>
+          <button class="language-option" data-lang="en" type="button" aria-label="English" title="English"><img class="flag-img" src="https://flagcdn.com/w40/gb.png" srcset="https://flagcdn.com/w80/gb.png 2x" alt="English"></button>
+          <button class="language-option" data-lang="es" type="button" aria-label="Español" title="Español"><img class="flag-img" src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" alt="Español"></button>
         </div>
         <a class="quote-btn" href="#quote" data-i18n="quoteAction">Demander une estimation</a>
       </div>
@@ -126,7 +126,7 @@
 
           <div class="form-actions">
             <button class="btn btn-primary submit-btn" id="submitQuoteBtn" type="submit"><i class="fa-solid fa-paper-plane"></i><span data-i18n="sendRequest">Envoyer la demande</span></button>
-            <a class="btn btn-secondary" id="googleFormBtn" target="_blank" rel="noopener" data-i18n="openGoogleForm">Utiliser le formulaire Google</a>
+            
           </div>
           <div class="form-message" id="quoteMessage" role="status" aria-live="polite"></div>
         </form>
@@ -134,12 +134,12 @@
     </section>
   </main>
 
-  <footer><div class="wrap footer-grid"><div>© 2026 AquaTerra Systems 2.1 · <span data-i18n="footerTag">Geospatial intelligence for field operations</span></div><div><a href="#about" data-i18n="privacyLink">Confidentialité</a><a href="#quote" data-i18n="contact">Contact</a></div></div></footer>
+  <footer><div class="wrap footer-grid"><div>© 2026 AquaTerra Systems 2.1.2 · <span data-i18n="footerTag">Geospatial intelligence for field operations</span></div><div><a href="#about" data-i18n="privacyLink">Confidentialité</a><a href="#quote" data-i18n="contact">Contact</a></div></div></footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script src="assets/js/config.js?v=2.1.0"></script>
-  <script src="assets/js/translations.js?v=2.1.0"></script>
-  <script src="assets/js/app.js?v=2.1.0"></script>
+  <script src="assets/js/config.js?v=2.1.2"></script>
+  <script src="assets/js/translations.js?v=2.1.2"></script>
+  <script src="assets/js/app.js?v=2.1.2"></script>
 </body>
 </html>
