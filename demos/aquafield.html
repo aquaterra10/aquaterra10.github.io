@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AquaField 2.3 — Démonstration interactive</title>
+
+  <meta
+    name="description"
+    content="AquaField 2.3 — démonstration interactive de collecte terrain, mode hors connexion, file d'attente locale et synchronisation."
+  >
+  <meta name="author" content="AquaTerra Systems">
+  <meta name="theme-color" content="#f4f8fb">
+
+  <style>
+    :root{
+      --bg:#f4f8fb;
+      --surface:#ffffff;
+      --surface-2:#eef6f8;
+      --surface-3:#e8f4f2;
+      --text:#102536;
+      --muted:#607486;
+      --border:#d4e1e8;
+      --primary:#00957f;
+      --blue:#1676b8;
+      --ok:#178b63;
+      --warning:#d99018;
+      --danger:#d84b4b;
+      --shadow:0 16px 42px rgba(18,51,69,.09);
+      --radius:18px;
+    }
+
+    html[data-theme="dark"]{
+      --bg:#07121d;
+      --surface:#102437;
+      --surface-2:#0b1a28;
+      --surface-3:#153047;
+      --text:#edf7fb;
+      --muted:#9db1c0;
+      --border:#26465f;
+      --primary:#42e6c3;
+      --blue:#52b9ff;
+      --ok:#46d78f;
+      --warning:#ffb14b;
+      --danger:#ff6b6b;
+      --shadow:0 20px 56px rgba(0,0,0,.28);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+
+    .topbar{
+      height:70px;
+      position:sticky;
+      top:0;
+      z-index:1000;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:0 24px;
+      background:color-mix(in srgb,var(--surface) 94%,transparent);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-family:"Courier New",monospace;
+      font-weight:800;
+    }
+
+    .brand-mark{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      color:#fff;
+      background:linear-gradient(135deg,#007f70,#11b99d);
+      box-shadow:0 8px 22px rgba(0,149,127,.22);
+    }
+
+    .brand span{color:var(--primary)}
+    .version{font-size:10px;color:var(--blue);margin-left:4px;vertical-align:top}
+    .top-actions{display:flex;align-items:center;gap:8px}
+
+    .small-btn{
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:10px;
+      padding:9px 12px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .small-btn:hover{border-color:var(--primary)}
+    .page{max-width:1450px;margin:auto;padding:22px}
+
+    .intro{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:20px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow{
+      color:var(--primary);
+      font-size:11px;
+      letter-spacing:.16em;
+      font-weight:800;
+      text-transform:uppercase;
+      margin-bottom:7px;
+    }
+
+    h1,h2,h3{margin:0;line-height:1.08}
+    h1{font-size:clamp(28px,4vw,44px);letter-spacing:-1.2px}
+    .subtitle{margin-top:9px;color:var(--muted);max-width:840px;line-height:1.6;font-size:14px}
+
+    .demo-label{
+      border:1px solid #f2df9e;
+      background:#fff6dc;
+      color:#8a6200;
+      border-radius:10px;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    html[data-theme="dark"] .demo-label{
+      background:rgba(255,177,75,.09);
+      color:var(--warning);
+      border-color:color-mix(in srgb,var(--warning) 40%,var(--border));
+    }
+
+    .kpis{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(140px,1fr));
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .kpi{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:15px;
+      padding:15px;
+      box-shadow:0 5px 20px rgba(18,51,69,.035);
+    }
+
+    .kpi-label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      margin-bottom:7px;
+    }
+
+    .kpi-value{
+      font-family:"Courier New",monospace;
+      font-size:22px;
+      font-weight:800;
+    }
+
+    .primary{color:var(--primary)}
+    .good{color:var(--ok)}
+    .warn{color:var(--warning)}
+    .bad{color:var(--danger)}
+    .kpi-sub{color:var(--muted);font-size:10px;margin-top:4px}
+
+    .layout{
+      display:grid;
+      grid-template-columns:420px minmax(0,1fr);
+      gap:14px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .card-head{
+      padding:15px 16px 12px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .card-title{font-size:14px;font-weight:800}
+    .card-sub{font-size:10px;color:var(--muted);margin-top:3px}
+    .card-body{padding:14px 16px}
+
+    .network-banner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 11px;
+      background:var(--surface-2);
+    }
+
+    .network-left{display:flex;align-items:center;gap:9px}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}
+    .network-banner.offline .dot{background:var(--warning)}
+    .network-title{font-size:11px;font-weight:800}
+    .network-sub{font-size:9px;color:var(--muted);margin-top:2px}
+
+    .field{display:grid;gap:6px;margin-bottom:10px}
+    .field label{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+    .field input,.field select,.field textarea{
+      width:100%;
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:10px;
+      padding:10px 11px;
+      outline:none;
+      font-size:12px;
+    }
+
+    .field textarea{min-height:92px;resize:vertical}
+
+    .gps-box{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .mini{
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+      background:var(--surface-2);
+    }
+
+    .mini span{display:block;font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:800}
+    .mini b{display:block;margin-top:4px;font-family:"Courier New",monospace;font-size:12px}
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .btn{
+      border:1px solid var(--border);
+      background:var(--surface);
+      color:var(--text);
+      border-radius:10px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn.warning{background:color-mix(in srgb,var(--warning) 10%,var(--surface));color:var(--warning)}
+    .btn:hover{transform:translateY(-1px)}
+
+    .message{
+      margin-top:12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:11px 12px;
+      background:var(--surface-2);
+      min-height:60px;
+    }
+
+    .message-title{font-size:11px;font-weight:800}
+    .message-text{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.45}
+
+    .right-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-bottom:14px;
+    }
+
+    .queue-list,.sync-list{display:grid;gap:8px}
+    .queue-item,.sync-item{
+      border:1px solid var(--border);
+      border-radius:11px;
+      padding:10px;
+      background:var(--surface-2);
+    }
+
+    .item-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .item-title{font-size:11px;font-weight:800}
+    .item-meta{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.4}
+    .badge{
+      display:inline-block;
+      border-radius:999px;
+      padding:5px 8px;
+      font-size:8px;
+      font-weight:800;
+      border:1px solid var(--border);
+      white-space:nowrap;
+    }
+
+    .badge.pending{color:var(--warning);background:color-mix(in srgb,var(--warning) 8%,var(--surface))}
+    .badge.synced{color:var(--ok);background:color-mix(in srgb,var(--ok) 8%,var(--surface))}
+    .badge.failed{color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--surface))}
+
+    .table-card{margin-top:14px}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:900px}
+    th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;font-size:10px}
+    th{
+      background:var(--surface-2);
+      color:var(--muted);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    .notice{
+      margin-top:14px;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-left:3px solid var(--warning);
+      border-radius:12px;
+      background:color-mix(in srgb,var(--surface) 92%,var(--warning) 8%);
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    @media(max-width:1100px){
+      .kpis{grid-template-columns:repeat(3,1fr)}
+      .layout{grid-template-columns:1fr}
+      .right-grid{grid-template-columns:1fr}
+    }
+
+    @media(max-width:700px){
+      .topbar{height:62px;padding:0 12px}
+      .page{padding:14px 10px}
+      .intro{display:block}
+      .demo-label{display:inline-block;margin-top:10px}
+      .kpis{grid-template-columns:1fr 1fr}
+      .gps-box,.actions{grid-template-columns:1fr}
+      .brand{font-size:13px}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../index.html">
+    <div class="brand-mark">A</div>
+    <div>
+      aquaterra.<span>systems</span>
+      <sup class="version">2.3</sup>
+    </div>
+  </a>
+
+  <div class="top-actions">
+    <button class="small-btn" id="themeBtn" type="button">☾</button>
+    <a class="small-btn" href="../demonstrations.html">← Démonstrations</a>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="intro">
+    <div>
+      <div class="eyebrow">Démonstration interactive · AquaField</div>
+      <h1>Collecte terrain et synchronisation hors connexion</h1>
+      <div class="subtitle">
+        Simulez une collecte mobile avec GPS, stockage local en mode hors connexion
+        et synchronisation automatique lorsque le réseau revient.
+      </div>
+    </div>
+
+    <div class="demo-label">Données simulées</div>
+  </div>
+
+  <section class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">Formulaires créés</div>
+      <div class="kpi-value primary" id="kpiCreated">0</div>
+      <div class="kpi-sub">total session</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">En attente locale</div>
+      <div class="kpi-value warn" id="kpiPending">0</div>
+      <div class="kpi-sub">à synchroniser</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">Synchronisés</div>
+      <div class="kpi-value good" id="kpiSynced">0</div>
+      <div class="kpi-sub">transmis au serveur</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">Précision GPS</div>
+      <div class="kpi-value primary"><span id="kpiAccuracy">5</span> m</div>
+      <div class="kpi-sub">simulation terrain</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">État réseau</div>
+      <div class="kpi-value good" id="kpiNetwork">ONLINE</div>
+      <div class="kpi-sub">simulation réseau</div>
+    </div>
+  </section>
+
+  <section class="layout">
+
+    <aside class="card">
+      <div class="card-head">
+        <div class="card-title">Formulaire terrain</div>
+        <div class="card-sub">Simulation de saisie mobile</div>
+      </div>
+
+      <div class="card-body">
+
+        <div class="network-banner" id="networkBanner">
+          <div class="network-left">
+            <div class="dot"></div>
+            <div>
+              <div class="network-title" id="networkTitle">Connexion disponible</div>
+              <div class="network-sub" id="networkSub">Les formulaires peuvent être synchronisés immédiatement.</div>
+            </div>
+          </div>
+          <button class="small-btn" id="networkToggleBtn" type="button">Passer hors ligne</button>
+        </div>
+
+        <div class="field">
+          <label>Nom du site</label>
+          <input id="siteName" type="text" value="Centre terrain Alpha">
+        </div>
+
+        <div class="field">
+          <label>Département</label>
+          <select id="department">
+            <option>Ouest</option>
+            <option>Artibonite</option>
+            <option>Nord</option>
+            <option>Nord-Est</option>
+            <option>Sud</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Type d'observation</label>
+          <select id="observationType">
+            <option>Évaluation de site</option>
+            <option>Route d'accès</option>
+            <option>Infrastructure</option>
+            <option>Point d'eau</option>
+          </select>
+        </div>
+
+        <div class="gps-box">
+          <div class="mini">
+            <span>Latitude</span>
+            <b id="latValue">18.54382</b>
+          </div>
+          <div class="mini">
+            <span>Longitude</span>
+            <b id="lonValue">-72.33870</b>
+          </div>
+          <div class="mini">
+            <span>Précision</span>
+            <b id="accuracyValue">5 m</b>
+          </div>
+          <div class="mini">
+            <span>Horodatage</span>
+            <b id="timestampValue">—</b>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Observation</label>
+          <textarea id="notes">Accès acceptable, site opérationnel.</textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="refreshGpsBtn" type="button">Actualiser GPS</button>
+          <button class="btn primary" id="saveBtn" type="button">Enregistrer</button>
+        </div>
+
+        <div class="message" id="formMessage">
+          <div class="message-title">Prêt pour la collecte</div>
+          <div class="message-text">Le formulaire sera synchronisé immédiatement si le réseau est disponible.</div>
+        </div>
+
+      </div>
+    </aside>
+
+    <div>
+
+      <div class="right-grid">
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">File d'attente locale</div>
+            <div class="card-sub">Enregistrements conservés sur l'appareil</div>
+          </div>
+
+          <div class="card-body">
+            <div class="queue-list" id="queueList"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Synchronisation</div>
+            <div class="card-sub">Historique des transmissions simulées</div>
+          </div>
+
+          <div class="card-body">
+            <div class="sync-list" id="syncList"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card table-card">
+        <div class="card-head">
+          <div class="card-title">Journal de collecte</div>
+          <div class="card-sub">Tous les formulaires créés pendant la démonstration</div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date / heure</th>
+                <th>Site</th>
+                <th>Département</th>
+                <th>Type</th>
+                <th>GPS</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="notice">
+    Cette démonstration simule le fonctionnement hors connexion. Les données sont fictives et restent uniquement dans votre navigateur pendant cette session.
+  </div>
+
+</main>
+
+<script>
+'use strict';
+
+let online = true;
+let counter = 0;
+
+const records = [];
+const queue = [];
+const syncHistory = [];
+
+function now(){
+  return new Date().toLocaleString('fr-FR',{
+    day:'2-digit',
+    month:'2-digit',
+    hour:'2-digit',
+    minute:'2-digit',
+    second:'2-digit'
+  });
+}
+
+function randomGps(){
+  const baseLat=18.54382;
+  const baseLon=-72.33870;
+
+  const lat=baseLat + (Math.random()-.5)*.012;
+  const lon=baseLon + (Math.random()-.5)*.012;
+  const acc=Math.floor(Math.random()*7)+3;
+
+  document.getElementById('latValue').textContent=lat.toFixed(5);
+  document.getElementById('lonValue').textContent=lon.toFixed(5);
+  document.getElementById('accuracyValue').textContent=acc+' m';
+  document.getElementById('kpiAccuracy').textContent=acc;
+  document.getElementById('timestampValue').textContent=now();
+}
+
+function setNetwork(value){
+  online=value;
+
+  const banner=document.getElementById('networkBanner');
+  const title=document.getElementById('networkTitle');
+  const sub=document.getElementById('networkSub');
+  const btn=document.getElementById('networkToggleBtn');
+  const kpi=document.getElementById('kpiNetwork');
+
+  banner.classList.toggle('offline',!online);
+
+  if(online){
+    title.textContent='Connexion disponible';
+    sub.textContent='Les formulaires peuvent être synchronisés immédiatement.';
+    btn.textContent='Passer hors ligne';
+    kpi.textContent='ONLINE';
+    kpi.className='kpi-value good';
+
+    if(queue.length){
+      syncQueue();
+    }
+  }else{
+    title.textContent='Mode hors connexion';
+    sub.textContent='Les nouveaux formulaires seront stockés localement.';
+    btn.textContent='Rétablir connexion';
+    kpi.textContent='OFFLINE';
+    kpi.className='kpi-value warn';
+  }
+
+  updateKPIs();
+}
+
+function buildRecord(){
+  counter++;
+
+  return {
+    id:'AF-'+String(counter).padStart(3,'0'),
+    time:now(),
+    site:document.getElementById('siteName').value.trim() || 'Site sans nom',
+    department:document.getElementById('department').value,
+    type:document.getElementById('observationType').value,
+    lat:document.getElementById('latValue').textContent,
+    lon:document.getElementById('lonValue').textContent,
+    accuracy:document.getElementById('accuracyValue').textContent,
+    notes:document.getElementById('notes').value.trim(),
+    status:online?'synced':'pending'
+  };
+}
+
+function saveRecord(){
+  const record=buildRecord();
+  records.unshift(record);
+
+  if(online){
+    syncHistory.unshift({
+      id:record.id,
+      time:record.time,
+      text:`${record.id} synchronisé immédiatement.`,
+      status:'synced'
+    });
+
+    showMessage('Formulaire synchronisé',`${record.id} a été enregistré et transmis immédiatement.`,true);
+  }else{
+    queue.push(record);
+
+    showMessage('Enregistré localement',`${record.id} est conservé sur l'appareil et sera synchronisé automatiquement au retour du réseau.`,true);
+  }
+
+  updateAll();
+}
+
+function syncQueue(){
+  if(!online || !queue.length) return;
+
+  showMessage('Synchronisation en cours',`${queue.length} formulaire(s) en attente vont être transmis.`,true);
+
+  const pending=[...queue];
+  queue.length=0;
+
+  pending.forEach((record,index)=>{
+    setTimeout(()=>{
+      record.status='synced';
+
+      syncHistory.unshift({
+        id:record.id,
+        time:now(),
+        text:`${record.id} synchronisé après retour du réseau.`,
+        status:'synced'
+      });
+
+      if(index===pending.length-1){
+        showMessage('Synchronisation terminée','Tous les formulaires en attente ont été transmis.',true);
+      }
+
+      updateAll();
+    },500*(index+1));
+  });
+}
+
+function showMessage(title,text,ok){
+  const box=document.getElementById('formMessage');
+  box.innerHTML=`
+    <div class="message-title" style="color:${ok?'var(--ok)':'var(--danger)'}">${title}</div>
+    <div class="message-text">${text}</div>
+  `;
+}
+
+function renderQueue(){
+  const holder=document.getElementById('queueList');
+  holder.innerHTML='';
+
+  queue.forEach(r=>{
+    const div=document.createElement('div');
+    div.className='queue-item';
+    div.innerHTML=`
+      <div class="item-top">
+        <div class="item-title">${r.id} · ${r.site}</div>
+        <span class="badge pending">EN ATTENTE</span>
+      </div>
+      <div class="item-meta">${r.department} · ${r.type}<br>${r.time}<br>GPS ${r.accuracy}</div>
+    `;
+    holder.appendChild(div);
+  });
+
+  if(!queue.length){
+    holder.innerHTML='<div style="font-size:10px;color:var(--muted)">Aucun formulaire en attente.</div>';
+  }
+}
+
+function renderSync(){
+  const holder=document.getElementById('syncList');
+  holder.innerHTML='';
+
+  syncHistory.slice(0,8).forEach(s=>{
+    const div=document.createElement('div');
+    div.className='sync-item';
+    div.innerHTML=`
+      <div class="item-top">
+        <div class="item-title">${s.id}</div>
+        <span class="badge synced">SYNCHRONISÉ</span>
+      </div>
+      <div class="item-meta">${s.text}<br>${s.time}</div>
+    `;
+    holder.appendChild(div);
+  });
+
+  if(!syncHistory.length){
+    holder.innerHTML='<div style="font-size:10px;color:var(--muted)">Aucune synchronisation enregistrée.</div>';
+  }
+}
+
+function renderHistory(){
+  const tbody=document.getElementById('historyTable');
+  tbody.innerHTML='';
+
+  records.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><strong>${r.id}</strong></td>
+      <td>${r.time}</td>
+      <td>${r.site}</td>
+      <td>${r.department}</td>
+      <td>${r.type}</td>
+      <td>${r.lat}, ${r.lon}<br>${r.accuracy}</td>
+      <td>
+        <span class="badge ${r.status==='synced'?'synced':'pending'}">
+          ${r.status==='synced'?'Synchronisé':'En attente'}
+        </span>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  if(!records.length){
+    tbody.innerHTML='<tr><td colspan="7" style="color:var(--muted)">Aucun formulaire créé.</td></tr>';
+  }
+}
+
+function updateKPIs(){
+  document.getElementById('kpiCreated').textContent=records.length;
+  document.getElementById('kpiPending').textContent=queue.length;
+  document.getElementById('kpiSynced').textContent=records.filter(r=>r.status==='synced').length;
+}
+
+function updateAll(){
+  updateKPIs();
+  renderQueue();
+  renderSync();
+  renderHistory();
+}
+
+document.getElementById('networkToggleBtn').addEventListener('click',()=>{
+  setNetwork(!online);
+});
+
+document.getElementById('refreshGpsBtn').addEventListener('click',randomGps);
+document.getElementById('saveBtn').addEventListener('click',saveRecord);
+
+const root=document.documentElement;
+const themeBtn=document.getElementById('themeBtn');
+
+function updateThemeButton(){
+  themeBtn.textContent=root.dataset.theme==='dark'?'☀':'☾';
+}
+
+themeBtn.addEventListener('click',()=>{
+  root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
+  localStorage.setItem('aquaterraTheme',root.dataset.theme);
+  updateThemeButton();
+});
+
+const savedTheme=localStorage.getItem('aquaterraTheme');
+if(savedTheme) root.dataset.theme=savedTheme;
+
+randomGps();
+setNetwork(true);
+updateThemeButton();
+updateAll();
+</script>
+
+</body>
+</html>
