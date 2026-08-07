@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://aquaterra10.github.io/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://aquaterra10.github.io/</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquatrack.html</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquaforms.html</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquamaps.html</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquadash.html</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquahydro.html</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquarisk.html</loc></url>
+  <url><loc>https://aquaterra10.github.io/products/aquaqr.html</loc></url>
+</urlset>

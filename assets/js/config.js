@@ -1,7 +1,7 @@
 'use strict';
 
 const CONFIG = Object.freeze({
-  version: '2.1.2',
+  version: '2.2',
   company: 'AquaTerra Systems',
   email: 'aquaterrasystems10@gmail.com',
   defaultLanguage: 'fr',

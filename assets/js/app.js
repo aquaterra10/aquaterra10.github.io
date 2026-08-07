@@ -11,7 +11,7 @@ values:[['bullseye','Utilité opérationnelle'],['shield-halved','Confidentialit
 };
 function renderStatic(){
  $('#solutionGrid').innerHTML=data.solutions.map(x=>`<article class="card reveal"><div class="card-icon"><i class="fa-solid fa-${x[0]}"></i></div><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join('');
- $('#productGrid').innerHTML=data.products.map((x,i)=>`<article class="card product-card reveal"><span class="product-code">${x[0]}</span><h3>${x[1]}</h3><p>Module AquaTerra ${i+1} prêt à être adapté aux besoins opérationnels.</p><a class="btn btn-secondary" href="#demos">Démo</a></article>`).join('');
+ const productSlugs=['aquatrack','aquaforms','aquamaps','aquadash','aquahydro','aquarisk','aquaqr','']; $('#productGrid').innerHTML=data.products.map((x,i)=>`<article class="card product-card reveal"><span class="product-code">${x[0]}</span><h3>${x[1]}</h3><p>Module AquaTerra ${i+1} prêt à être adapté aux besoins opérationnels.</p>${productSlugs[i]?`<a class="btn btn-secondary" href="products/${productSlugs[i]}.html">Découvrir</a>`:`<a class="btn btn-secondary" href="#training">Formation</a>`}</article>`).join('');
  $('#sectorCloud').innerHTML=data.sectors.map(x=>`<span><i class="fa-solid fa-${x[0]}"></i>${x[1]}</span>`).join('');
  $('#trainingGrid').innerHTML=data.training.map(x=>`<article class="card reveal"><h3>${x[0]}</h3><p>${x[1]}</p><span class="duration">Atelier pratique</span></article>`).join('');
  $('#valueGrid').innerHTML=data.values.map(x=>`<div class="value"><i class="fa-solid fa-${x[0]}"></i><b>${x[1]}</b></div>`).join('');
