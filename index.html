@@ -5,22 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="AquaTerra Systems conçoit des solutions SIG, GPS, cartographie web, collecte mobile, automatisation et hydrologie pour les opérations de terrain.">
   <meta name="author" content="AquaTerra Systems">
-  <meta property="og:title" content="AquaTerra Systems 2.2">
+  <meta property="og:title" content="AquaTerra Systems 2.3">
   <meta property="og:description" content="Des données terrain aux décisions opérationnelles.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#061522">
-  <title>AquaTerra Systems 2.2 — Geospatial intelligence</title>
+  <title>AquaTerra Systems 2.3 — Geospatial intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="assets/css/main.css?v=2.2">
+  <link rel="stylesheet" href="assets/css/main.css?v=2.3">
 </head>
 <body>
   <nav class="site-nav">
     <div class="wrap nav-inner">
-      <a class="brand" href="#home" aria-label="AquaTerra Systems">aquaterra<span>.systems</span><small>2.2</small></a>
+      <a class="brand" href="#home" aria-label="AquaTerra Systems">aquaterra<span>.systems</span><small>2.3</small></a>
       <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
       <div class="nav-links" id="navLinks">
         <a href="#solutions" data-i18n="navSolutions">Solutions</a>
@@ -59,6 +59,7 @@
         <div class="ops-head"><div><span class="product-code">AQUATRACK · LIVE DEMO</span><h3 data-i18n="opsCenter">Centre de contrôle opérationnel</h3></div><span class="live"><span></span><b data-i18n="simulated">SIMULATION ACTIVE</b></span></div>
         <div id="heroMap"></div>
         <div class="mini-kpis"><div><b>12</b><span data-i18n="vehiclesTracked">véhicules suivis</span></div><div><b>38</b><span data-i18n="sitesCovered">sites couverts</span></div><div><b>3</b><span data-i18n="activeAlerts">alertes actives</span></div></div>
+        <div class="cta-row" style="margin-top:14px"><a class="btn btn-secondary" href="demos/aquatrack.html"><i class="fa-solid fa-play"></i><span>AquaTrack 2.3</span></a></div>
       </div>
     </div>
   </header>
@@ -67,9 +68,6 @@
     <section id="solutions"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="solutionsEyebrow">Solutions</span><h2 data-i18n="solutionsTitle">Une chaîne numérique complète, du terrain au pilotage.</h2><p data-i18n="solutionsLead">Collecter, contrôler, traiter, cartographier, alerter et rendre compte dans un même système opérationnel.</p></div><div class="grid grid-3" id="solutionGrid"></div></div></section>
 
     <section id="suite" class="soft"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="productsEyebrow">Gamme AquaTerra</span><h2 data-i18n="productsTitle">Des modules autonomes et interopérables.</h2><p data-i18n="productsLead">Chaque produit peut être livré seul ou intégré à une plateforme complète.</p></div><div class="grid grid-4" id="productGrid"></div></div></section>
-
-    <section id="demos"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="demoEyebrow">Démonstrations</span><h2 data-i18n="demoTitle">Explorez des scénarios opérationnels.</h2><p data-i18n="demoLead">Les données affichées sont entièrement fictives.</p></div><div class="demo-shell reveal"><div class="demo-tabs" id="demoTabs"></div><div class="demo-stage" id="demoStage"></div></div></div></section>
-
     <section id="sectors" class="soft"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="industriesEyebrow">Secteurs</span><h2 data-i18n="industriesTitle">Conçu pour les opérations qui doivent fonctionner sur le terrain.</h2></div><div class="sector-cloud" id="sectorCloud"></div></div></section>
 
     <section id="training"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="trainingEyebrow">Formation</span><h2 data-i18n="trainingTitle">Transfert de compétences orienté résultats.</h2><p data-i18n="trainingLead">Ateliers pratiques, modèles réutilisables, exercices et accompagnement post-formation.</p></div><div class="grid grid-3" id="trainingGrid"></div></div></section>
@@ -134,12 +132,12 @@
     </section>
   </main>
 
-  <footer><div class="wrap footer-grid"><div>© 2026 AquaTerra Systems 2.2.2 · <span data-i18n="footerTag">Geospatial intelligence for field operations</span></div><div><a href="#about" data-i18n="privacyLink">Confidentialité</a><a href="#quote" data-i18n="contact">Contact</a></div></div></footer>
+  <footer><div class="wrap footer-grid"><div>© 2026 AquaTerra Systems 2.3 · <span data-i18n="footerTag">Geospatial intelligence for field operations</span></div><div><a href="#about" data-i18n="privacyLink">Confidentialité</a><a href="#quote" data-i18n="contact">Contact</a></div></div></footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script src="assets/js/config.js?v=2.1.2"></script>
-  <script src="assets/js/translations.js?v=2.1.2"></script>
-  <script src="assets/js/app.js?v=2.1.2"></script>
+  <script src="assets/js/config.js?v=2.3"></script>
+  <script src="assets/js/translations.js?v=2.3"></script>
+  <script src="assets/js/app.js?v=2.3"></script>
 </body>
 </html>
