@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AquaTerra Systems conçoit des solutions SIG, GPS, cartographie web, collecte mobile, automatisation et hydrologie pour les opérations de terrain.">
+  <meta name="author" content="AquaTerra Systems">
+  <meta property="og:title" content="AquaTerra Systems 2.1">
+  <meta property="og:description" content="Des données terrain aux décisions opérationnelles.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#061522">
+  <title>AquaTerra Systems 2.1 — Geospatial intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/main.css?v=2.1.0">
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#home" aria-label="AquaTerra Systems">aquaterra<span>.systems</span><small>2.1</small></a>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+      <div class="nav-links" id="navLinks">
+        <a href="#solutions" data-i18n="navSolutions">Solutions</a>
+        <a href="#suite" data-i18n="navProducts">Produits</a>
+        <a href="#demos" data-i18n="navDemos">Démonstrations</a>
+        <a href="#sectors" data-i18n="navIndustries">Secteurs</a>
+        <a href="#training" data-i18n="navTraining">Formations</a>
+        <a href="#about" data-i18n="navAbout">À propos</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeBtn" aria-label="Changer le thème"><i class="fa-solid fa-sun"></i></button>
+        <div class="language-switcher" role="group" aria-label="Langues">
+          <button class="language-option" data-lang="fr" type="button"><span class="flag">🇫🇷</span><span>FR</span></button>
+          <button class="language-option" data-lang="en" type="button"><span class="flag">🇬🇧</span><span>EN</span></button>
+          <button class="language-option" data-lang="es" type="button"><span class="flag">🇪🇸</span><span>ES</span></button>
+        </div>
+        <a class="quote-btn" href="#quote" data-i18n="quoteAction">Demander une estimation</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <canvas id="networkCanvas" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow" data-i18n="heroEyebrow">Intelligence géospatiale · opérations terrain</span>
+        <h1 data-i18n-html="heroTitle">Des données terrain aux <span>décisions opérationnelles.</span></h1>
+        <p class="lead" data-i18n="heroLead">AquaTerra Systems conçoit des solutions SIG, GPS, collecte mobile, automatisation, hydrologie et cartographie web pour les organisations qui pilotent des opérations multisites.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#demos"><i class="fa-solid fa-play"></i><span data-i18n="viewDemos">Voir les démonstrations</span></a>
+          <a class="btn btn-secondary" href="#quote"><i class="fa-solid fa-file-signature"></i><span data-i18n="getEstimate">Obtenir une estimation</span></a>
+        </div>
+        <div class="trust-row"><span><i class="fa-solid fa-shield-halved"></i><span data-i18n="trust1">Données fictives ou anonymisées</span></span><span><i class="fa-solid fa-globe"></i><span data-i18n="trust2">Services à distance</span></span><span><i class="fa-solid fa-language"></i>FR · EN · ES</span></div>
+      </div>
+      <div class="ops-card reveal">
+        <div class="ops-head"><div><span class="product-code">AQUATRACK · LIVE DEMO</span><h3 data-i18n="opsCenter">Centre de contrôle opérationnel</h3></div><span class="live"><span></span><b data-i18n="simulated">SIMULATION ACTIVE</b></span></div>
+        <div id="heroMap"></div>
+        <div class="mini-kpis"><div><b>12</b><span data-i18n="vehiclesTracked">véhicules suivis</span></div><div><b>38</b><span data-i18n="sitesCovered">sites couverts</span></div><div><b>3</b><span data-i18n="activeAlerts">alertes actives</span></div></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="solutions"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="solutionsEyebrow">Solutions</span><h2 data-i18n="solutionsTitle">Une chaîne numérique complète, du terrain au pilotage.</h2><p data-i18n="solutionsLead">Collecter, contrôler, traiter, cartographier, alerter et rendre compte dans un même système opérationnel.</p></div><div class="grid grid-3" id="solutionGrid"></div></div></section>
+
+    <section id="suite" class="soft"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="productsEyebrow">Gamme AquaTerra</span><h2 data-i18n="productsTitle">Des modules autonomes et interopérables.</h2><p data-i18n="productsLead">Chaque produit peut être livré seul ou intégré à une plateforme complète.</p></div><div class="grid grid-4" id="productGrid"></div></div></section>
+
+    <section id="demos"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="demoEyebrow">Démonstrations</span><h2 data-i18n="demoTitle">Explorez des scénarios opérationnels.</h2><p data-i18n="demoLead">Les données affichées sont entièrement fictives.</p></div><div class="demo-shell reveal"><div class="demo-tabs" id="demoTabs"></div><div class="demo-stage" id="demoStage"></div></div></div></section>
+
+    <section id="sectors" class="soft"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="industriesEyebrow">Secteurs</span><h2 data-i18n="industriesTitle">Conçu pour les opérations qui doivent fonctionner sur le terrain.</h2></div><div class="sector-cloud" id="sectorCloud"></div></div></section>
+
+    <section id="training"><div class="wrap"><div class="section-head reveal"><span class="eyebrow" data-i18n="trainingEyebrow">Formation</span><h2 data-i18n="trainingTitle">Transfert de compétences orienté résultats.</h2><p data-i18n="trainingLead">Ateliers pratiques, modèles réutilisables, exercices et accompagnement post-formation.</p></div><div class="grid grid-3" id="trainingGrid"></div></div></section>
+
+    <section id="about" class="soft"><div class="wrap about-grid"><div class="reveal"><span class="eyebrow" data-i18n="aboutEyebrow">À propos</span><h2 data-i18n="aboutTitle">Ingénierie, SIG et développement de solutions.</h2><p data-i18n="aboutP1">AquaTerra Systems transforme les besoins opérationnels en outils fiables, documentés et adaptés aux capacités des équipes.</p><p data-i18n="aboutP2">Les solutions sont développées à distance ou lors de missions ciblées, avec des livrables clairement définis.</p><div class="privacy-note" data-i18n="privacy">Les démonstrations utilisent des données synthétiques ou anonymisées. Aucune identité, donnée client ou opération sensible n’est publiée sans autorisation.</div></div><div class="value-grid" id="valueGrid"></div></div></section>
+
+    <section id="quote" class="quote-section">
+      <div class="wrap quote-grid quote-grid-21">
+        <div class="reveal quote-intro">
+          <span class="eyebrow" data-i18n="quoteEyebrow">Demande d’estimation</span>
+          <h2 data-i18n="quoteTitle">Décrivez votre opération. Nous structurons la solution.</h2>
+          <p data-i18n="quoteLead">Votre demande est enregistrée dans notre système et reçoit un numéro de dossier unique.</p>
+          <div class="quote-benefits">
+            <div><i class="fa-solid fa-shield-halved"></i><span data-i18n="quoteBenefit1">Transmission sécurisée</span></div>
+            <div><i class="fa-solid fa-hashtag"></i><span data-i18n="quoteBenefit2">Numéro de dossier automatique</span></div>
+            <div><i class="fa-solid fa-envelope-circle-check"></i><span data-i18n="quoteBenefit3">Confirmation par email</span></div>
+          </div>
+          <div class="contact-links"><a class="btn btn-secondary" href="mailto:aquaterrasystems10@gmail.com"><i class="fa-solid fa-envelope"></i> aquaterrasystems10@gmail.com</a></div>
+        </div>
+
+        <form class="quote-form reveal professional-form" id="quoteForm" novalidate>
+          <input type="text" id="qWebsite" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" id="qRequestId" name="requestId">
+          <input type="hidden" id="qLanguage" name="language">
+          <input type="hidden" id="qEstimateValue" name="estimate">
+
+          <div class="form-section-title"><span>01</span><div><b data-i18n="contactInfo">Coordonnées</b><small data-i18n="contactInfoHint">Personne et organisation à contacter</small></div></div>
+          <div class="form-grid">
+            <label><span data-i18n="contactName">Nom complet</span><input id="qContactName" name="contactName" required autocomplete="name"></label>
+            <label><span data-i18n="org">Institution / organisation</span><input id="qOrg" name="organization" required autocomplete="organization"></label>
+            <label><span data-i18n="email">Email professionnel</span><input id="qEmail" name="email" type="email" required autocomplete="email"></label>
+            <label><span data-i18n="phone">Téléphone / WhatsApp</span><input id="qPhone" name="phone" type="tel" autocomplete="tel"></label>
+            <label><span data-i18n="country">Pays</span><input id="qCountry" name="country" required autocomplete="country-name"></label>
+            <label><span data-i18n="sector">Secteur</span><select id="qSector" name="sector" required></select></label>
+          </div>
+
+          <div class="form-section-title"><span>02</span><div><b data-i18n="technicalNeed">Besoin technique</b><small data-i18n="technicalNeedHint">Sélectionnez tous les services pertinents</small></div></div>
+          <div class="service-selector" id="serviceSelector"></div>
+
+          <div class="form-grid project-grid">
+            <label><span data-i18n="users">Nombre approximatif d’utilisateurs</span><input id="qUsers" name="users" type="number" min="1" value="10"></label>
+            <label><span data-i18n="deadline">Délai souhaité</span><select id="qDeadline" name="deadline"></select></label>
+            <label><span data-i18n="budget">Budget indicatif</span><select id="qBudget" name="budget"></select></label>
+            <label><span data-i18n="maintenance">Maintenance mensuelle</span><select id="qMaintenance" name="maintenance"><option value="0" data-i18n="no">Non</option><option value="150" data-i18n="yes">Oui</option></select></label>
+            <label class="full"><span data-i18n="details">Description du projet</span><textarea id="qDetails" name="details" required data-i18n-placeholder="detailsPlaceholder" placeholder="Zone, objectifs, données disponibles, délai et contraintes..."></textarea></label>
+          </div>
+
+          <div class="estimate estimate-21">
+            <div><small data-i18n="preEstimate">Estimation préliminaire</small><strong id="quoteTotal">0 USD</strong><p data-i18n="estimateNote">Cette estimation est indicative et ne constitue pas un devis contractuel.</p></div>
+            <span class="estimate-status" id="estimateStatus"><i class="fa-solid fa-calculator"></i></span>
+          </div>
+
+          <label class="consent-row"><input id="qConsent" name="consent" type="checkbox" required><span data-i18n="consent">J’autorise AquaTerra Systems à utiliser ces informations uniquement pour analyser et traiter ma demande.</span></label>
+
+          <div class="form-actions">
+            <button class="btn btn-primary submit-btn" id="submitQuoteBtn" type="submit"><i class="fa-solid fa-paper-plane"></i><span data-i18n="sendRequest">Envoyer la demande</span></button>
+            <a class="btn btn-secondary" id="googleFormBtn" target="_blank" rel="noopener" data-i18n="openGoogleForm">Utiliser le formulaire Google</a>
+          </div>
+          <div class="form-message" id="quoteMessage" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap footer-grid"><div>© 2026 AquaTerra Systems 2.1 · <span data-i18n="footerTag">Geospatial intelligence for field operations</span></div><div><a href="#about" data-i18n="privacyLink">Confidentialité</a><a href="#quote" data-i18n="contact">Contact</a></div></div></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="assets/js/config.js?v=2.1.0"></script>
+  <script src="assets/js/translations.js?v=2.1.0"></script>
+  <script src="assets/js/app.js?v=2.1.0"></script>
+</body>
+</html>
